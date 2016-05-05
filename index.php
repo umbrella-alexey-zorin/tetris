@@ -11,7 +11,7 @@ try {
     print "Error!: " . $e->getMessage() . "<br/>";
     die();
 }
-
+//d
 require_once 'application/core/bootstrap.php';
 
 ?>
