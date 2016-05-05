@@ -1,6 +1,8 @@
 Vagrantfile
 bootstrap.sh
 phpmyadmin
+*/.DS_Store
+*/*/.DS_Store
 /.DS_Store
 /.vagrant
 .htaccess
