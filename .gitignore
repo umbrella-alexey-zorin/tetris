@@ -1,0 +1,6 @@
+Vagrantfile
+bootstrap.sh
+phpmyadmin
+/.DS_Store
+/.vagrant
+.htaccess
