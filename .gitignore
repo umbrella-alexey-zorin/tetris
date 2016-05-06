@@ -5,3 +5,7 @@ phpmyadmin
 */*/.DS_Store
 /.DS_Store
 /.vagrant
+/app
+/bin
+/vendor
+/web
