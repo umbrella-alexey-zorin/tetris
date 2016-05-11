@@ -1,11 +1,12 @@
 <?php
     namespace AppBundle\Entity;
     use Doctrine\ORM\Mapping as ORM;
+    use Symfony\Component\Security\Core\User\UserInterface;
 
     /**
      * @ORM\Entity
      */
-    class Users {
+    class Users implements UserInterface{
         /**
          * @ORM\Column(type="integer")
          * @ORM\Id
@@ -98,6 +99,15 @@
         }
 
         public function getRoles() {
-            return array('ROLE_USER');
+            $roles[] = 'ROLE_USER';
+            return array_unique($roles);
+        }
+
+        public function getSalt() {
+            return;
+        }
+
+        public function eraseCredentials() {
+        
         }
 }

@@ -2,6 +2,9 @@
 {% block title %} Login {% endblock %}
 {% block body %}
 </div>
+{% if error %}
+        <div class="login_error">{{ error.message }}</div>
+{% endif %}
 <div class="shadow_query"></div>
 <div class="require">
     <span></span>

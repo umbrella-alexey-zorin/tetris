@@ -9,15 +9,7 @@
     use AppBundle\Entity\Users;
 
     class LoginController extends Controller {
-        /**
-        * @Route("/login")
-        */
-        public function indexAction() {
-            return $this->render('default/login.html.twig', array(
-                'username' => 'admin'
-            ));
-        }
-
+        
         /**
          * @Route("login/registration/")
          */
@@ -51,8 +43,10 @@
             }
 
             $user = new Users();
+            $encoder = $this->container->get('security.password_encoder');
+            $encoded = $encoder->encodePassword($user, $password);
             $user->setUsername($username);
-            $user->setPassword($password);
+            $user->setPassword($encoded);
             $user->setEmail($email);
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);

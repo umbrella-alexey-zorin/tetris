@@ -38,7 +38,7 @@ $(function() {
     /* --------------------------------------GAME CORE -------------------------------------------------------*/
 
     var GameCoreModel = Backbone.Model.extend({
-    	url: '/saveGame/',
+    	url: '/play/saveGame',
         parse: function(response) {
             for(var key in response) {
                 response[key] = JSON.parse(response[key]);
@@ -505,12 +505,12 @@ $(function() {
 
     var MyScoreCollection = Backbone.Collection.extend({
         model : MyScoreModel,
-        url: '/score/getMyScore/'
+        url: '/play/getMyScore'
     });
 
     var TopScoreCollection = Backbone.Collection.extend({
         model: TopScoreModel,
-        url: '/score/getTopScore/'
+        url: '/play/getTopScore'
     });
 
     var myScoreCollection = new MyScoreCollection();

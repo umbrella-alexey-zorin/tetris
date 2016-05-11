@@ -13,7 +13,7 @@
 <div class="header">
     <div class="center">
         <div class="menu"><a href="#startgame">Играть!</a><a href="#myscore">Мои достижения</a><a href="#topscore">TOP 10</a></div>
-        <div class="userCase"><span class="hello">Hi, </span><a class="hello" href="/login/signout/">Выход</a></div>
+        <div class="userCase"><span class="hello">Hi, {{ app.user.username }}</span><a class="hello" href="/logout">Выход</a></div>
     </div>
 </div>
 <div class="content">
@@ -25,7 +25,7 @@
                 <div></div>
             </div>
             <div class="scoreBoard">
-                <p class="playerName"><?php echo $_SESSION['username'] ?></p>
+                <p class="playerName">{{ app.user.username }}</p>
                 <p class="points">0</p>
             </div>
             <div class="level">
