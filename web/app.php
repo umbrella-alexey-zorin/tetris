@@ -2,6 +2,7 @@
 
 use Symfony\Component\HttpFoundation\Request;
 
+
 /**
  * @var Composer\Autoload\ClassLoader
  */

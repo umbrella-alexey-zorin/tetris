@@ -10,7 +10,7 @@
 /vendor/
 /bin/
 /composer.phar
-/.DS_Store
+*.DS_Store
 phpmyadmin
 /.vagrant
 Vagrantfile
