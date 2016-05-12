@@ -10,9 +10,10 @@
     
     class SecurityController extends Controller {
         /**
-         * @Route("/login")
+         * @Route("/login", name="login")
          */
         public function loginAction() {
+
             if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
                 return $this->redirect('/play', 301);
             }

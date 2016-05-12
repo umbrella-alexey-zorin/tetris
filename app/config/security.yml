@@ -23,6 +23,7 @@ security:
                 check_path: /login_check
                 username_parameter: username
                 password_parameter: password
+                default_target_path: /play
 
             # activate different ways to authenticate
 

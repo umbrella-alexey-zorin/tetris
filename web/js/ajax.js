@@ -87,7 +87,7 @@ Validator.prototype.showMsg = function(msg, type) {
     }, 3000);
     if(type == 'access') {
         setTimeout(function() {
-            window.location = '/';
+            window.location = '/login';
         },1500);
     }
 };
@@ -163,7 +163,7 @@ new Validator({
     form: document.querySelector('.password form'),
     msgElem: document.querySelector('.require'),
     shadowElem: document.querySelector('.shadow_query'),
-    url: '/login/sendPasswordRecovery/',
+    url: '/login/initRecoveryPassword',
     ajax: true
 });
 
@@ -178,101 +178,3 @@ new Validator({
 
 
 
-/*
-var formAunt = document.querySelector('.login form');
-var formReg = document.querySelector('.registration form');
-formAunt.addEventListener('submit', send_r);
-formReg.addEventListener('submit', send_reg);
-
-function send_reg(e) {
-	var event = e || window.event;
-    event.preventDefault ? event.preventDefault() : (event.returnValue=false);
-    sendAjaxRequest(this, '/scripts/registration.php');
-    document.querySelector('.shaddow_query').style.display = 'block';
-}
-
-
-function send_r(e) {
-	var event = e || window.event;
-    event.preventDefault ? event.preventDefault() : (event.returnValue=false);
-    sendAjaxRequest(this, '/scripts/signin.php');
-    document.querySelector('.shaddow_query').style.display = 'block';
-}
-
-function getXhrObject(){
-        if(typeof XMLHttpRequest === 'undefined'){
-            XMLHttpRequest = function() {
-                try {
-                    return new window.ActiveXObject( "Microsoft.XMLHTTP" );
-                } catch(e) {}
-            };
-        }
-        return new XMLHttpRequest();
-    }
-
-    function showRequire(str) {
-        var reqElem = document.querySelector('.require');
-        var str = JSON.parse(str);
-        reqElem.firstElementChild.innerHTML = str[0];
-        reqElem.firstElementChild.className = str[1];
-        if(str[1] == 'access') {
-        	setTimeout(function() {
-        		window.location = '/';
-        	},1000)
-        }
-        
-
-        reqElem.style.display = 'block';
-        setTimeout(function(){
-            reqElem.firstElementChild.classList.add('show');
-        }, 20);
-        setTimeout(function(){
-            reqElem.firstElementChild.classList.remove('show');
-            setTimeout(function(){
-                reqElem.style.display = 'none';
-            }, 500)
-        }, 3000)
-
-    }
-
-    function sendAjaxRequest(myform, url){
-        var xhr = getXhrObject();
-        if(xhr){
-            var elems = myform.elements, // все элементы формы
-                url = url, // путь к обработчику
-                params = [],
-                elName,
-                elType;
-            // проходимся в цикле по всем элементам формы
-            for(var i = 0; i < elems.length; i++){
-                elType = elems[i].type; // тип текущего элемента (атрибут type)
-                elName = elems[i].name; // имя текущего элемента (атрибут name)
-                if(elName){ // если атрибут name присутствует
-                    // если это переключатель или чекбокс, но он не отмечен, то пропускаем
-                    if((elType == 'checkbox' || elType == 'radio') && !elems[i].checked) continue;
-                    // в остальных случаях - добавляем параметр "ключ(name)=значение(value)"
-                    params.push(elems[i].name + '=' + elems[i].value);
-                }
-            }
-            params.push('typeBox=' + myform.getAttribute('data-type'));
-
-            // Для GET-запроса
-            //url += '?' + params.join('&');
-
-            xhr.open('POST', url, true); // открываем соединение
-            // заголовки - для POST-запроса
-            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-
-            xhr.onreadystatechange = function() {
-                if(xhr.readyState == 4 && xhr.status == 200) { // проверяем стадию обработки и статус ответа сервера
-                	document.querySelector('.shaddow_query').style.display = '';
-                    showRequire(xhr.responseText);
-                }
-            };
-            // стартуем ajax-запрос
-            xhr.send(params.join('&')); // для GET запроса - xhr.send(null);
-        }
-    }
-
-
-*/

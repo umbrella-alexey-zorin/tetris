@@ -2,11 +2,12 @@
     namespace AppBundle\Entity;
     use Doctrine\ORM\Mapping as ORM;
     use Symfony\Component\Security\Core\User\UserInterface;
+    use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 
     /**
      * @ORM\Entity
      */
-    class Users implements UserInterface{
+    class Users implements AdvancedUserInterface{
         /**
          * @ORM\Column(type="integer")
          * @ORM\Id
@@ -30,50 +31,75 @@
         private $email;
 
         /**
-         * @ORM\Column(type="boolean")
+         * @ORM\Column(type="boolean", nullable=true)
          */
         private $gameON;
 
         /**
-         * @ORM\Column(type="boolean")
+         * @ORM\Column(type="boolean", nullable=true)
          */
         private $pause;
 
         /**
-         * @ORM\Column(type="string", length=1000)
+         * @ORM\Column(type="string", length=1000, nullable=true)
          */
         private $figure;
 
         /**
-         * @ORM\Column(type="string", length=1000)
+         * @ORM\Column(type="string", length=1000, nullable=true)
          */
         private $nextFigure;
 
         /**
-         * @ORM\Column(type="integer")
+         * @ORM\Column(type="integer", nullable=true)
          */
 
         private $points;
 
         /**
-         * @ORM\Column(type="integer")
+         * @ORM\Column(type="integer", nullable=true)
          */
         private $lvl;
 
         /**
-         * @ORM\Column(type="integer")
+         * @ORM\Column(type="integer", nullable=true)
          */
         private $count;
 
         /**
-         * @ORM\Column(type="integer")
+         * @ORM\Column(type="integer", nullable=true)
          */
         private $speed;
 
         /**
-         * @ORM\Column(type="string", length=5000)
+         * @ORM\Column(type="string", length=5000, nullable=true)
          */
         private $arr;
+
+        /**
+         * @ORM\Column(type="boolean", options={"default": 0})
+         */
+        private $isActive;
+
+        /**
+         * @ORM\Column(type="string", length=100, nullable=true)
+         */
+        private $activateCode;
+
+        /**
+         * @ORM\Column(type="boolean", nullable=true)
+         */
+        private $passRecoveryState;
+
+        /**
+         * @ORM\Column(type="datetime", nullable=true)
+         */
+        private $passRecoveryDate;
+
+        /**
+         * @ORM\Column(type="string", length=300, nullable=true)
+         */
+        private $passRecoveryCode;
     
         /**
         * Get id
@@ -335,5 +361,62 @@
      */
     public function getArr() {
         return $this->arr;
+    }
+
+    public function isAccountNonExpired() {
+        return true;
+    }
+
+    public function isAccountNonLocked() {
+        return true;
+    }
+
+    public function isCredentialsNonExpired() {
+        return true;
+    }
+
+    public function isEnabled() {
+        return $this->isActive;
+    }
+
+    public function setIsActive($isActive) {
+        $this->isActive = $isActive;
+        return $this;
+    }
+
+    public function getActivateCode() {
+        return $this->activateCode;
+    }
+
+    public function setActivateCode($activateCode) {
+        $this->activateCode = $activateCode;
+        return $this;
+    }
+
+    public function getPassRecoveryState() {
+        return $this->passRecoveryState;
+    }
+
+    public function setPassRecoveryState($passRecoveryState) {
+        $this->passRecoveryState = $passRecoveryState;
+        return $this;
+    }
+
+    public function getPassRecoveryDate() {
+        return $this->passRecoveryDate;
+    }
+
+    public function setPassRecoveryDate() {
+        $this->passRecoveryDate = new \DateTime("now");
+        return $this;
+    }
+
+    public function getPassRecoveryCode() {
+        return $this->passRecoveryCode;
+    }
+
+    public function setPassRecoveryCode($passRecoveryCode) {
+        $this->passRecoveryCode = $passRecoveryCode;
+        return $this;
     }
 }

@@ -5,6 +5,12 @@
 {% if error %}
         <div class="login_error">{{ error.message }}</div>
 {% endif %}
+{% if app.session.get('msg_error') %}
+<div class='activation_msg_error'>{{ app.session.remove('msg_error') }}</div>
+{% endif %}
+{% if app.session.get('msg_success') %}
+<div class='activation_msg_success'>{{ app.session.remove('msg_success') }}</div>
+{% endif %}
 <div class="shadow_query"></div>
 <div class="require">
     <span></span>
