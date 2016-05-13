@@ -30,12 +30,17 @@ class TestAuthenticator implements SimpleFormAuthenticatorInterface {
         $passwordValid = $this->encoder->isPasswordValid($user, $token->getCredentials());
 
         if ($passwordValid) {
-            return new UsernamePasswordToken(
+            if($user->isEnabled()) {
+                return new UsernamePasswordToken(
                 $user,
                 $user->getPassword(),
                 $providerKey,
                 $user->getRoles()
             );
+            } else {
+                throw new CustomUserMessageAuthenticationException('Аккаунт не активирован');
+            }
+            
         }
 
         // CAUTION: this message will be returned to the client
