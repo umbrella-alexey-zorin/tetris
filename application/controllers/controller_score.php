@@ -34,6 +34,6 @@ class Controller_Score extends Controller {
         $this->view->render('view_msg.php', null, $this->model->getTopScore());
     }
 
-
+    
 }
 ?>

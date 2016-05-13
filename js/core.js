@@ -38,7 +38,7 @@ $(function() {
     /* --------------------------------------GAME CORE -------------------------------------------------------*/
 
     var GameCoreModel = Backbone.Model.extend({
-    	url: '/saveGame/',
+    	url: '/login/saveGame',
         parse: function(response) {
             for(var key in response) {
                 response[key] = JSON.parse(response[key]);

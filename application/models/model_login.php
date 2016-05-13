@@ -5,23 +5,8 @@ class Model_Login extends Model {
         parent:: __construct();
         $this->table = "users";
         $this->mail = new mail();
-        if(isset($param['username'])) {
-            $this->username = trim($param['username']);
-        }
-        if(isset($param['password'])) {
-            $this->password = trim($param['password']);
-        }
-        if(isset($param['confirm_password'])) {
-            $this->confirm_password = trim($param['confirm_password']);
-        }
-        if(isset($param['email'])) {
-            $this->email = trim($param['email']);
-        }
-        if(isset($param['reg_code'])) {
-            $this->reg_code = trim($param['reg_code']);
-        }
-        if(isset($param['pass_recovery_code'])) {
-            $this->pass_recovery_code = trim($param['pass_recovery_code']);
+        foreach ($param as $key => $value) {
+            $this->$key = trim($value);
         }
     }
 
@@ -79,10 +64,10 @@ class Model_Login extends Model {
         $row = $stmt->fetch();
 
         if($row) {
-            if($row['activate'] == 0) {
+            if($row['is_active'] == 0) {
                 return json_encode(array("Аккаунт не активирован", "error"));
             } else {
-                $_SESSION['user_id'] = $row['user_id'];
+                $_SESSION['user_id'] = $row['id'];
                 $_SESSION['username'] = $row['username'];
                 return json_encode(array("Добро пожаловать", "access"));
             }
@@ -132,8 +117,7 @@ class Model_Login extends Model {
             "username" => $this->username,
             "password" => $this->password,
             "email" => $this->email,
-            "reg_code" => $this->reg_code,
-            "date_reg" => date('Y-m-d H:i:s', time())
+            "activate_code" => $this->reg_code
             );
         $this->save($param);
         $this->mail->sendActivate($this->email, $this->reg_code, $this->username);
@@ -153,12 +137,12 @@ class Model_Login extends Model {
         $stmt = $this->getSelect($param); 
         $row = $stmt->fetch();
         if($row) {
-            if($row['activate'] == '1') {
+            if($row['is_active'] == '1') {
                 $_SESSION['msg_success'] = "Ваш аккаунт уже был активирован ранее";
                 return;
             }
             $param = array(
-                array("activate" => 1),
+                array("is_active" => 1),
                 array("username" => $this->username)
                 );
             $this->update($param);
@@ -183,7 +167,7 @@ class Model_Login extends Model {
         $stmt = $this->getSelect($param);
         $row = $stmt->fetch();
         if($row) {
-            if($row['activate']) return json_encode(array("Ваш аккаунт уже активирован", "error"));
+            if($row['is_active']) return json_encode(array("Ваш аккаунт уже активирован", "error"));
             if($row['resend_state']) return json_encode(array("Вам уже отправлено сообщение. Следующее письмо можно будет отправить через 10 минут.", "error"));
             $this->mail->sendActivate($this->email, $row['reg_code'], $row['username']);
             $param = array(
@@ -284,5 +268,44 @@ class Model_Login extends Model {
         $stmt = $this->db->prepare("UPDATE {$this->table} SET resend_state = 0 WHERE UNIX_TIMESTAMP() - UNIX_TIMESTAMP(resend_date) > 120");
         $stmt->execute();
     }
-}
+
+    public function saveGame() {
+         $stmt = $this->db->prepare("UPDATE {$this->table} SET game_on = {$this->gameON},
+            pause = '{$this->pause}',
+            figure = '{$this->figure}',
+            next_figure = '{$this->nextFigure}',
+            points = '{$this->points}',
+            lvl = '{$this->lvl}',
+            count = '{$this->count}',
+            speed = '{$this->speed}',
+            arr = '{$this->arr}'  WHERE username = '{$this->username}'");
+        try{
+            $stmt->execute();
+        } catch(PDOException $e) {
+            exit("Ошибка данных в БД");
+        }
+    }
+
+    public function loadGame() {
+        $query = "SELECT game_on, pause, figure, next_figure, points, lvl, count, speed, arr FROM {$this->table} WHERE username = '{$this->username}'";
+        try{
+            $stmt = $this->db->prepare($query);
+            $stmt->execute();
+        } catch(PDOException $e) {
+            //exit("Ошибка данных в БД");
+            exit($e->getMessage());
+        }
+
+        $arr = array();
+        while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            foreach ($row as $key => $value) {
+                if($key == 'game_on') $key = 'gameON';
+                if($key == 'next_figure') $key = 'nextFigure';      
+                $arr[$key] = $value;
+            }
+            //$arr[] = array('name' => $row['name'], 'score' => $row['score']);
+        }
+        return json_encode($arr);
+    }
+ }
 ?>

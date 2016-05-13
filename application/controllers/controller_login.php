@@ -98,11 +98,40 @@ class Controller_Login extends Controller {
         $this->view->render('view_msg.php', null, $this->model->newPassword());
     }
 
+    public function action_saveGame() {
+        if(!isset($_SESSION['user_id']) || !isset($_SESSION['username'])) {
+            header("Location: /login/");
+            exit();
+        }
+        $data =  file_get_contents('php://input');
+        $data = json_decode($data);
+        if(!empty($data)) {
+            $this->model = new Model_Login(array(
+                'username' => $_SESSION['username'],
+                'gameON' => $data->gameON,
+                'pause' => $data->pause,
+                'figure' => json_encode($data->figure),
+                'nextFigure' => json_encode($data->nextFigure),
+                'points' => $data->points,
+                'lvl' => $data->lvl,
+                'count' => $data->count,
+                'speed' => $data->speed,
+                'arr' => json_encode($data->arr)
+                ));
+            $this->view->render('view_msg.php', null, $this->model->saveGame());
+        } else {
+            $this->model = new Model_Login(array('username' => $_SESSION['username'], 'user_id' => $_SESSION['user_id']));
+            $this->view->render('view_msg.php', null, $this->model->loadGame());
+        }
+    }
+
     private function check_auth() {
         if(isset($_SESSION['user_id'])) {
             header("Location: /");
             exit();
         }
     }
+
+
 }
 ?>

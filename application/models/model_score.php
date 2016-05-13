@@ -51,5 +51,7 @@ class Model_Score extends model {
         }
         return json_encode($arr);
     }
+
+    
 }
 ?>
