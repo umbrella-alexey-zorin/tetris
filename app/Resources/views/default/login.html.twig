@@ -3,7 +3,7 @@
 {% block body %}
 </div>
 {% if error %}
-        <div class="login_error">{{ error.message }}</div>
+        <div class="activation_msg_error">{{ error.message }}</div>
 {% endif %}
 {% if app.session.get('msg_error') %}
 <div class='activation_msg_error'>{{ app.session.remove('msg_error') }}</div>

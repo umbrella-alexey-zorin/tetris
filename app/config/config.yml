@@ -69,3 +69,11 @@ swiftmailer:
     password:  
     encryption: ssl
     port: 465
+
+services:
+#    service_name:
+#        class: AppBundle\Directory\ClassName
+#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+     test_authenticator:
+        class:     AppBundle\Security\TestAuthenticator
+        arguments: ["@security.password_encoder"]

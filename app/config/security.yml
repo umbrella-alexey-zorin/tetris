@@ -18,7 +18,9 @@ security:
         main:
             anonymous: ~
             pattern: ^/
-            form_login:
+            #form_login:
+            simple_form:
+                authenticator: test_authenticator
                 login_path: /login
                 check_path: /login_check
                 username_parameter: username
